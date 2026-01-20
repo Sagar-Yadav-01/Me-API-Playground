@@ -155,3 +155,6 @@ This project uses **Better Auth**.
 
 ---
 **Resume Link**: [Download Resume](#) (Placeholder)
+MONGODB_URI=mongodb://localhost:27017
+BETTER_AUTH_SECRET=changeme_1234567890
+BETTER_AUTH_URL=http://localhost:3000

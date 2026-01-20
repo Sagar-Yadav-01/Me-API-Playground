@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/lib/db';
+import { connectDB } from '@/lib/db';
 import Profile from '@/models/Profile';
 
 export async function GET() {
     try {
-        await dbConnect();
+        await connectDB();
         const profile = await Profile.findOne({}, { skills: 1 });
 
         if (!profile) {

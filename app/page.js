@@ -1,15 +1,15 @@
-import Link from 'next/link';
-import { Mail, GraduationCap, Code2, Briefcase, Github, Linkedin, ArrowRight, Sparkles, Cpu, Globe } from 'lucide-react';
-import AnimatedSection from '@/components/AnimatedSection';
+export const runtime = "nodejs";
+
+import { connectDB } from "@/lib/db";
+import Profile from "@/models/Profile";
 
 async function getProfile() {
-  const baseUrl = process.env.BETTER_AUTH_URL || 'http://localhost:3000';
   try {
-    const res = await fetch(`${baseUrl}/api/profile`, { cache: 'no-store' });
-    if (!res.ok) return null;
-    return res.json();
-  } catch (e) {
-    console.error("Failed to fetch profile", e);
+    await connectDB();
+    const profile = await Profile.findOne({});
+    return JSON.parse(JSON.stringify(profile));
+  } catch (error) {
+    console.error("Failed to fetch profile", error);
     return null;
   }
 }
@@ -19,9 +19,11 @@ export default async function Home() {
 
   if (!profile) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
-        <h1 className="text-3xl font-bold text-foreground">Profile data not found</h1>
-        <p className="text-muted-foreground max-w-md">Please ensure the database is seeded.</p>
+      <div className="relative flex flex-col items-center justify-center min-h-screen text-center px-4">
+        <h1 className="text-4xl font-bold">Profile data not found</h1>
+        <p className="text-muted-foreground mt-4">
+          Please ensure the database is seeded.
+        </p>
       </div>
     );
   }
